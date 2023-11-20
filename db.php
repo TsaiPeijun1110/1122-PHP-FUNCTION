@@ -1,13 +1,14 @@
 <?php
+date_default_timezone_set("Asia/Taipei");
  $dsn="mysql:host=localhost;charset=utf8;dbname=school";
  $pdo=new PDO($dsn,'root','');
 
 //$rows=all('students',['dept'=>'3']);
 //$row=find('students',20);
-$row=find('students',['dept'=>'99','graduate_at'=>'23']);
+//$row=find('students',['dept'=>'99','graduate_at'=>'23']);
 //$row=ll('students',['dept'=>'1','graduate_at'=>'23']);
 //echo "<h3>相同條件使用find()</h3>";
-dd($row);
+//dd($row);
 //ecjo "<hr>";
 //echo "<h3>相同條件使用all()</h3>";
 //($rows);
@@ -17,18 +18,18 @@ dd($row);
 
 //del('students',['dept'=>5,'status_code'=>'001']);
 
-function pdo($db){
-    $dsn="mysql:host=localhost;charset=utf8;dbname=$db";
-    $pdo=new PDO($dsn,'root','');
+// function pdo($db){
+//     $dsn="mysql:host=localhost;charset=utf8;dbname=$db";
+//     $pdo=new PDO($dsn,'root','');
 
-    return $pdo;
-}
+//     return $pdo;
+// }
 
 //dd($up);
 //all()-給定資料表名後，會回傳整個資料表的資料
 function all($table=null,$where='',$other=''){
     //$dsn="mysql:host=localhost;charset=utf8;dbname=school";
-    $pdo=pdo('schoo');
+    global $pdo;
     $sql="select * from `$table` ";
     
     if(isset($table) && !empty($table)){
@@ -79,8 +80,7 @@ function find($table,$id){
 }
 //update()-給定資料表的條件後，會去更新相應的資料。
 function update($table,$id,$cols){
-    $dsn="mysql:host=localhost;charset=utf8;dbname=school";
-    $pdo=new PDO($dsn,'root','');
+    global $pdo;
 
     $sql="update `$table` set";
 
@@ -111,8 +111,7 @@ function update($table,$id,$cols){
 //insert()-給定資料內容後，會去新增資料到資料表
 
 function insert($table,$values){
-    $dsn="mysql:host=localhost;charset=utf8;dbname=school";
-    $pdo=new PDO($dsn,'root','');
+    global $pdo;
 
     $sql="insert into `$table` ";
     $cols="(`".join("`,`",array_keys($values))."`)";
@@ -127,7 +126,7 @@ function insert($table,$values){
 //del()-給定條件後，會去刪除指定的資料
 
 function del($table,$id){
-   include "./pdo.php";
+    global $pdo;
     $sql="delete from `$table` where ";
 
     if(is_array($id)){
