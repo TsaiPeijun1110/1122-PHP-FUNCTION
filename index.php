@@ -21,7 +21,7 @@ function sum($a,$b,){
 <h1>不定參數用法</h1>
 <?php
 function sum2(...$arg){
-    return array_sum($arg);
+    return array_sum($arg);   /*array_sum()傳回數組中值的總和*/
 }
 
 $result = sum2(1,2);
