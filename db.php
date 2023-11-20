@@ -1,11 +1,13 @@
 <?php
+ $dsn="mysql:host=localhost;charset=utf8;dbname=school";
+ $pdo=new PDO($dsn,'root','');
 
 //$rows=all('students',['dept'=>'3']);
 //$row=find('students',20);
-//$rowfind('students',['dept'=>'1','graduate_at'=>'23']);
-//$rowall('students',['dept'=>'1','graduate_at'=>'23']);
+$row=find('students',['dept'=>'99','graduate_at'=>'23']);
+//$row=ll('students',['dept'=>'1','graduate_at'=>'23']);
 //echo "<h3>相同條件使用find()</h3>";
-//dd($row);
+dd($row);
 //ecjo "<hr>";
 //echo "<h3>相同條件使用all()</h3>";
 //($rows);
@@ -13,13 +15,20 @@
 //$up=update("students",['dept'=>2, 'students_code'=>'001'],['dept'=>'99','name'=>'張明珠']);
 //insert('dept',['code'=>'112','name'=>'圖書館系']);
 
-del('students',['dept'=>5,'status_code'=>'001']);
+//del('students',['dept'=>5,'status_code'=>'001']);
+
+function pdo($db){
+    $dsn="mysql:host=localhost;charset=utf8;dbname=$db";
+    $pdo=new PDO($dsn,'root','');
+
+    return $pdo;
+}
 
 //dd($up);
 //all()-給定資料表名後，會回傳整個資料表的資料
 function all($table=null,$where='',$other=''){
-    $dsn="mysql:host=localhost;charset=utf8;dbname=school";
-    $pdo=new PDO($dsn,'root','');
+    //$dsn="mysql:host=localhost;charset=utf8;dbname=school";
+    $pdo=pdo('schoo');
     $sql="select * from `$table` ";
     
     if(isset($table) && !empty($table)){
@@ -49,8 +58,9 @@ function all($table=null,$where='',$other=''){
 }
 //find()-會回傳資料表指定id的資料
 function find($table,$id){
-    $dsn="mysql:host=localhost;charset=utf8;dbname=school";
-    $pdo=new PDO($dsn,'root','');
+    global $pdo;
+    // $dsn="mysql:host=localhost;charset=utf8;dbname=school";
+    // $pdo=new PDO($dsn,'root','');
     $sql="select * from `$table`";
 
     if(is_array($id)){
@@ -63,7 +73,7 @@ function find($table,$id){
     }else{
         echo "錯誤:參數的資料型態比斯是數字或陣列";
     }
-    echo 'find=>' .$$sql;
+    //echo 'find=>' .$$sql;
     $row=$pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
     return  $row;
 }
@@ -117,8 +127,7 @@ function insert($table,$values){
 //del()-給定條件後，會去刪除指定的資料
 
 function del($table,$id){
-    $dsn="mysql:host=localhost;charset=utf8;dbname=school";
-    $pdo=new PDO($dsn,'root','');
+   include "./pdo.php";
     $sql="delete from `$table` where ";
 
     if(is_array($id)){
