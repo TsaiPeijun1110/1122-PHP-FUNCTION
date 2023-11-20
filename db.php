@@ -10,7 +10,8 @@
 //echo "<h3>相同條件使用all()</h3>";
 //($rows);
 
-$up=update("students",'3',['dept'=>'16','name'=>'張明珠']);
+//$up=update("students",'3',['dept'=>'16','name'=>'張明珠']);
+//$up=update("students",['dept'=>2, 'students_code'=>'001'],['dept'=>'99','name'=>'張明珠']);
 
 dd($up);
 
@@ -79,6 +80,7 @@ function update($table,$id,$cols){
         echo "錯誤:缺少要編輯的欄位陣列";
     }
     $sql .= join(",",$tmp);
+    $tmp=[];
 
     if(is_array($id)){
         foreach($id as $col => $value){
