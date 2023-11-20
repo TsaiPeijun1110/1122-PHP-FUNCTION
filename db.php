@@ -9,11 +9,11 @@
 //ecjo "<hr>";
 //echo "<h3>相同條件使用all()</h3>";
 //($rows);
-
 //$up=update("students",'3',['dept'=>'16','name'=>'張明珠']);
 //$up=update("students",['dept'=>2, 'students_code'=>'001'],['dept'=>'99','name'=>'張明珠']);
+//insert('dept',['code'=>'112','name'=>'圖書館系']);
 
-insert('dept',['code'=>'112','name'=>'圖書館系']);
+del('students',['dept'=>5,'status_code'=>'001']);
 
 //dd($up);
 //all()-給定資料表名後，會回傳整個資料表的資料
@@ -110,6 +110,28 @@ function insert($table,$values){
 
     $sql=$sql . $cols ." values ".$vals;
 
+    //echo $sql;
+    return $pdo->exec($sql);
+}
+
+//del()-給定條件後，會去刪除指定的資料
+
+function del($table,$id){
+    $dsn="mysql:host=localhost;charset=utf8;dbname=school";
+    $pdo=new PDO($dsn,'root','');
+    $sql="delete from `$table` where ";
+
+    if(is_array($id)){
+        foreach($id as $col => $value){
+            $tmp[]="`$col`='$value'";
+        }
+        $sql.= join(" && ",$tmp);
+
+    }else if(is_array($id)){
+        $sql .= " `id`='$id'";
+    }else{
+        echo "錯誤:參數的資料型態比須是數字或陣列";
+    }
     //echo $sql;
     return $pdo->exec($sql);
 }
