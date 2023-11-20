@@ -13,8 +13,10 @@
 //$up=update("students",'3',['dept'=>'16','name'=>'張明珠']);
 //$up=update("students",['dept'=>2, 'students_code'=>'001'],['dept'=>'99','name'=>'張明珠']);
 
-dd($up);
+insert('dept',['code'=>'112','name'=>'圖書館系']);
 
+//dd($up);
+//all()-給定資料表名後，會回傳整個資料表的資料
 function all($table=null,$where='',$other=''){
     $dsn="mysql:host=localhost;charset=utf8;dbname=school";
     $pdo=new PDO($dsn,'root','');
@@ -45,7 +47,7 @@ function all($table=null,$where='',$other=''){
         echo "錯誤:沒有指定的資料表名稱";
     }
 }
-
+//find()-會回傳資料表指定id的資料
 function find($table,$id){
     $dsn="mysql:host=localhost;charset=utf8;dbname=school";
     $pdo=new PDO($dsn,'root','');
@@ -65,7 +67,7 @@ function find($table,$id){
     $row=$pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
     return  $row;
 }
-
+//update()-給定資料表的條件後，會去更新相應的資料。
 function update($table,$id,$cols){
     $dsn="mysql:host=localhost;charset=utf8;dbname=school";
     $pdo=new PDO($dsn,'root','');
@@ -96,8 +98,34 @@ function update($table,$id,$cols){
 
 } 
 
+//insert()-給定資料內容後，會去新增資料到資料表
+
+function insert($table,$values){
+    $dsn="mysql:host=localhost;charset=utf8;dbname=school";
+    $pdo=new PDO($dsn,'root','');
+
+    $sql="insert into `$table` ";
+    $cols="(`".join("`,`",array_keys($values))."`)";
+    $vals="('".join("','",$values)."')";
+
+    $sql=$sql . $cols ." values ".$vals;
+
+    //echo $sql;
+    return $pdo->exec($sql);
+}
+
  function dd($array){
      echo "<pre>";
      print_r($array);
      echo "</pre>";
  }
+
+
+
+ //function insert($table,這邊可以放[數字,字串,陣列]欄位);
+                          //['col1'=>'val1','col2'=>'val2'];
+                          //會從橫的變直的,像是個陣列
+                          //$cols="(`col1`,`col2` ,``,``,)";
+                          //$vals="('val1','val2' ,'','',)";
+
+ 
